@@ -1,13 +1,14 @@
 package org.acme.resources;
 
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.inject.Inject;
+import org.acme.entity.ToDo;
 import org.acme.services.ToDoService;
+
+import java.util.List;
+
 
 
 @Path("/hello")
@@ -24,34 +25,40 @@ public class ToDosResource {
 
     @POST
     @Path("/add")
-    public String addTodo() {
-
+    public void addTodo(ToDo toDo) {
+        service.adicionar(toDo);
         System.out.println("Rota para adicionar um to do");
     }
 
 
     @POST
     @Path("/update")
-    public String updateTodo() {
+    public void updateTodo(ToDo toDo) {
+        service.atualizar(toDo);
         System.out.println("Rota para editar um to do");
     }
 
     @POST
     @Path("/delete")
-    public String deleteTodo() {
+    public void deleteTodo(@PathParam("id") Long id) {
+        service.deletar(id);
         System.out.println("Rota para deletar um to do");
     }
 
     @POST
     @Path("/deleteAll")
-    public String deleteAllTodo() {
+    public void deleteAllTodo() {
+        service.deletarTodos();
         System.out.println("Rota para deletar todos os  to dos");
     }
 
     @GET
     @Path("/view")
-    public String viewTodo() {
+    public List<ToDo> viewTodo() {
+
         System.out.println("Rota para ver todos os to dos");
+        return service.listarTodos();
+
     }
 
 }
